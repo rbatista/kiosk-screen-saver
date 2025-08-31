@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Clock and Date</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: "Outfit", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .clock {
+            font-size: 15vw; /* Font size scales with viewport width */
+            margin-bottom: 0rem;
+            font-weight: 600;
+        }
+        .date {
+            font-size: 4vw; /* Font size scales with viewport width */
+            font-weight: 600;
+        }
+
+        .wlr {
+            font-family: "Outfit", sans-serif!important;
+            font-optical-sizing: auto;
+            font-style: normal;
+            font-weight: 600;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Visit This URL https://sharpweather.com/widget/r/#c=cbkg=rgb(69,90,100)&c=codd=rgb(84,110,122) and edit your Weather Widget. Else, if you don't want it, delete or comment out this weather block. -->
+
+    <div id="idf2fcf8f41f309" a='{"t":"r","v":"1.2","lang":"pt","locs":[766],"ssot":"c","sics":"ms","cbkg":"#000000","cfnt":"#FFFFFF","codd":"#000000","cont":"#E0E0E0","sfnt":"a","ewf":"bool"}'>Fonte de dados meteorológicos: <a href="https://sharpweather.com/weather_sao_paulo/30_days/">Sao Paulo weather 30 days</a></div><script async src="https://static1.sharpweather.com/widgetjs/?id=idf2fcf8f41f309"></script>
+
+    <div class="clock" id="clock"></div>
+    <div class="date" id="date"></div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+            const day = days[now.getDay()];
+            const date = now.toLocaleDateString('pt-BR');
+
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('date').textContent = `${day}, ${date}`;
+        }
+
+        function toggleClockMargin() {
+            const clockElement = document.querySelector('.clock');
+            if (clockElement.style.marginBottom === '4rem') {
+                clockElement.style.marginBottom = '0rem';
+            } else {
+                clockElement.style.marginBottom = '4rem';
+            }
+        }
+
+        function toggleWeatherPosition() {
+            const weatherElement = document.querySelector('.wlr');
+            if (weatherElement.style.top === '25px') {
+                weatherElement.style.top = '15px';
+            } else {
+                weatherElement.style.top = '25px';
+            }
+        }
+
+        setInterval(updateTime, 1000);
+        setInterval(toggleClockMargin, 5 * 60 * 1000); // Toggle margin every 5 minutes
+        // setInterval(toggleWeatherPosition, 5 * 60 * 1000); // Toggle margin every 5 minutes
+        updateTime(); // Initial call to display immediately
+    </script>
+</body>
+</html>
